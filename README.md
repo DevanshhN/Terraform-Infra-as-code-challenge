@@ -36,3 +36,52 @@ Please [email a patch](https://thoughtbot.com/blog/send-a-patch-to-someone-using
 > ## make your changes, committing along the way
 > git format-patch main --stdout > your-name.patch
 > ```
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | 4.0.5 |
+
+## Providers
+
+No providers.
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_alb_create_tg"></a> [alb\_create\_tg](#module\_alb\_create\_tg) | ./modules/infra/alb/alb_tg | n/a |
+| <a name="module_alb_listener"></a> [alb\_listener](#module\_alb\_listener) | ./modules/infra/alb/alb_listener | n/a |
+| <a name="module_alb_sg"></a> [alb\_sg](#module\_alb\_sg) | ./modules/securityGroup | n/a |
+| <a name="module_ec2_sg"></a> [ec2\_sg](#module\_ec2\_sg) | ./modules/securityGroup | n/a |
+| <a name="module_ec2_tg_attach"></a> [ec2\_tg\_attach](#module\_ec2\_tg\_attach) | ./modules/infra/alb/alb_tg/alb_tg_attach | n/a |
+| <a name="module_internet_gateway"></a> [internet\_gateway](#module\_internet\_gateway) | ./modules/network/internetGateway | n/a |
+| <a name="module_publicSubnet_IGW_Association"></a> [publicSubnet\_IGW\_Association](#module\_publicSubnet\_IGW\_Association) | ./modules/network/route_table_association | n/a |
+| <a name="module_public_alb"></a> [public\_alb](#module\_public\_alb) | ./modules/infra/alb | n/a |
+| <a name="module_public_rt"></a> [public\_rt](#module\_public\_rt) | ./modules/network/route_table | n/a |
+| <a name="module_public_subnet_1a"></a> [public\_subnet\_1a](#module\_public\_subnet\_1a) | ./modules/network/subnet | n/a |
+| <a name="module_public_subnet_1b"></a> [public\_subnet\_1b](#module\_public\_subnet\_1b) | ./modules/network/subnet | n/a |
+| <a name="module_ssh_key"></a> [ssh\_key](#module\_ssh\_key) | ./modules/ssh_key | n/a |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/network/vpc | n/a |
+| <a name="module_webservers"></a> [webservers](#module\_webservers) | ./modules/infra/ec2 | n/a |
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | The default tags to be attached to each resource being created | `map(string)` | <pre>{<br>  "CanBeDeleted": "Yes",<br>  "Owner": "Devansh",<br>  "Purpose": "Development"<br>}</pre> | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_ALB_dns"></a> [ALB\_dns](#output\_ALB\_dns) | n/a |
+| <a name="output_EC2_IP"></a> [EC2\_IP](#output\_EC2\_IP) | n/a |
+<!-- END_TF_DOCS -->

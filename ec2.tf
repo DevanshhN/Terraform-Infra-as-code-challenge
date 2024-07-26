@@ -1,8 +1,9 @@
-resource "aws_autoscaling_group" "" {
+/*
+resource "aws_autoscaling_group" "demoASG" {
   availability_zones = [ ]
   capacity_rebalance = false
   default_cooldown   = 420
-  desired_capacity   = 
+  desired_capacity   = 2
   enabled_metrics = [
     "GroupDesiredCapacity",
     "GroupInServiceInstances",
@@ -19,9 +20,9 @@ resource "aws_autoscaling_group" "" {
   launch_configuration      = ""
   load_balancers            = []
   max_instance_lifetime     = 0
-  max_size                  = 
+  max_size                  = 2
   metrics_granularity       = ""
-  min_size                  = 
+  min_size                  = 1
   name                      = ""
   protect_from_scale_in     = false
   service_linked_role_arn   = ""
@@ -43,20 +44,20 @@ resource "aws_autoscaling_group" "" {
 }
 
 # Elastic Load Balancing (ELB) v.2 
-resource "aws_lb" "" {
+resource "aws_lb" "demoALB" {
 	name                       = ""
 	load_balancer_type         = ""
 	internal                   = false
 	enable_deletion_protection = true
-	subnets                    = 
+	subnets                    = ""
 	security_groups            = [""]
 }
 
-resource "aws_lb_target_group" "" {
+resource "aws_lb_target_group" "demoASG" {
 	name                 = ""
 	port                 = "80"
 	protocol             = ""
-	vpc_id               = ""
+	vpc_id               = "aws_vpc.challengeVPC.id"
 	target_type          = "instance"
 	deregistration_delay = "120"
 	slow_start           = "0"
@@ -76,7 +77,7 @@ resource "aws_lb_target_group" "" {
 }
 
 # Load Balancer Listeners. 
-resource "aws_alb_listener" "" {
+resource "aws_alb_listener" "demoALB" {
 	port              = ""
 	protocol	= "HTTP"
 	load_balancer_arn = ""
@@ -89,7 +90,7 @@ resource "aws_alb_listener" "" {
 # You can use either Launch Configuration or Launch Template here. 
 resource "aws_launch_configuration" "dn-lc-prod-app" {
 	name_prefix = "west-staging"
-	instance_type = "c4.xlarge"
+	instance_type = "t2.micro"
 	image_id = "ami-019f81013c7a9ea53"
 	key_name = "${var.key_pair_name}"
 	security_groups = ["sg-04bdbc229096d2046", "sg-091ab7d5cbc65b6be"]
@@ -109,3 +110,15 @@ resource "aws_launch_configuration" "dn-lc-prod-app" {
 			echo "ECS_CLUSTER=challenge" > /etc/ecs/ecs.config
 			EOF
 }
+
+
+resource "aws_instance" "ec2" {
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  #key_name                    = var.ssh_key
+  security_groups             = [var.sg_id]
+  subnet_id                   = var.subnet_id
+  #associate_public_ip_address = var.associate_public_ip_address
+  tags                        = var.default_tags
+}
+*/

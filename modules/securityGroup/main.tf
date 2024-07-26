@@ -1,23 +1,40 @@
-resource "aws_vpc" "" {
-	cidr_block           = ""
-	enable_dns_hostnames = true
-	enable_dns_support   = true
-	instance_tenancy     = "default"
-	enable_classiclink_dns_support = true
+resource "aws_security_group" "this" {
+  name = var.name
+  vpc_id = var.vpc_id
+  description = var.description
 
-	tags = {
-		Name = ""
+  dynamic "ingress" {
+	for_each = var.ingress_rules
+	content {
+	  from_port = ingress.value.from_port
+	  to_port = ingress.value.to_port
+	  protocol = ingress.value.protocol
+	  cidr_blocks = ingress.value.cidr_blocks
+	  security_groups = ingress.value.security_groups
+	  description = ingress.value.description
 	}
+  }
+	dynamic "egress" {
+  for_each = var.egress_rules
+  content {
+    from_port       = egress.value.from_port
+    to_port         = egress.value.to_port
+    protocol        = egress.value.protocol
+    cidr_blocks     = egress.value.cidr_blocks
+    security_groups = egress.value.security_groups
+    description     = egress.value.description
+  		}
+	}
+
+	tags = var.resourceTags
+
 }
 
-resource "aws_internet_gateway" "us-west-2-igw" {
-	vpc_id = "${aws_vpc.us-west-2-vpc-main.id}"
-}
-
+/*
 resource "aws_security_group" "dn-sg-usw2-apiservers" {
 	name        = "dn-sg-usw2-apiservers"
 	description = "api server ports"
-	vpc_id      = "${aws_vpc.us-west-2-vpc-main.id}"
+	vpc_id      = aws_vpc.challengeVPC.id
 
 	ingress {
 		from_port   = 80
@@ -65,10 +82,10 @@ resource "aws_security_group" "dn-sg-usw2-apiservers" {
 	}
 }
 
-resource "aws_security_group" "" {
+resource "aws_security_group" "demoSG" {
 	name        = ""
 	description = ""
-	vpc_id      = ""
+	vpc_id      = "aws_vpc.challengeVPC.id"
 
 	ingress {
 		from_port   = 80
@@ -114,14 +131,5 @@ resource "aws_security_group" "" {
 }
 
 # AWS Subnet Section
-resource "aws_subnet" "" {
-	vpc_id                  = ""
-	cidr_block              = ""
-	availability_zone       = ""
-	map_public_ip_on_launch = true
 
-	tags = {
-		Name = ""
-	}
-}
-
+*/
